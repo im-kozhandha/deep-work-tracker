@@ -1,0 +1,22 @@
+# Python
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# Local database and environment files
+deepwork.db
+*.db-journal
+.env
+frontend/.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
