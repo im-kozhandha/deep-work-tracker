@@ -180,10 +180,11 @@ The brief leaves several rules open. These are the choices made.
 
 **Paused time and overdue.** Elapsed time is wall-clock time from `start_time` to completion, so paused time counts toward the overdue limit. The UI shows an "Overdue in" figure that follows the same rule. Focused time (elapsed minus paused) is reported separately in history and analytics.
 
-**Abandonment.** A pause left unresumed for 30 minutes (configurable) is finalized as `abandoned`.
-- It is applied lazily, with no background worker: when the session is touched by any action, and when `GET /sessions/history` runs.
-- The boundary is `now >= pause_time + timeout`. A resume at or after the deadline is rejected with 409.
-- `end_time` is set to `pause_time + timeout`, not to the moment it was noticed, so results do not depend on when someone looks.
+**Abandonment.** A pause left unresumed for 30 minutes (configurable via `ABANDONMENT_TIMEOUT_MINUTES`, default: `30`) is finalized as `abandoned`.
+
+- It is applied lazily, with no background worker: when a session is touched by an action and when `GET /sessions/history` runs.
+- The boundary is `now >= pause_time + timeout`. A resume at or after the deadline is rejected with `409 Conflict`.
+- `end_time` is set to `pause_time + timeout`, not to the moment the timeout is detected, so results do not depend on when someone looks.
 
 **Conflicting outcomes.** Interrupted takes precedence over overdue: overdue is evaluated only when completing from `active`.
 
